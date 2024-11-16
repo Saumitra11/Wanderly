@@ -2,7 +2,9 @@ import React from 'react'
 
 function CreateTrip() {
   return (
-    <div>CreateTrip</div>
+    <div className='sm:px-10 md:'>
+      <h1>Create Trip</h1>
+    </div>
   )
 }
 

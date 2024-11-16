@@ -9,7 +9,7 @@ import Header from './components/custom/Header'
 const router = createBrowserRouter([
   {
     path:'/',
-    element:<App/>
+    element: <App/>
   },
   {
     path:'/create-trip',
@@ -20,6 +20,6 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Header />
-    <RouterProvider router={router} / >
+    <RouterProvider router={router} />
   </StrictMode>,
 )
