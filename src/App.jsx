@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import './App.css'
-import Hero from './components/custom/Hero'
+import { ToastContainer } from 'react-toastify';
+import './App.css';
+import Hero from './components/custom/Hero';
 
 function App() {
   return (
     <>
-      {/* Hero  */}
+      {/* Hero */}
       <Hero />
+      <ToastContainer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

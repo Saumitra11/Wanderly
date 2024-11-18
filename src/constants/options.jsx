@@ -25,7 +25,7 @@ export const SelectTravelersList = [
         title: 'Adventure Crew',
         desc: 'Gather your friends for an epic adventure',
         icon: '🤙',
-        people: '3-5 people'
+        people: '3-6 people'
     }
 ];
 
