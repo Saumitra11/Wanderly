@@ -3,8 +3,7 @@ import { Input } from '@/components/ui/input';
 import { SelectTravelersList, SelectBudgetOptions, AI_PROMPT} from '@/constants/options'
 import React, { useEffect, useReducer, useState } from 'react'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'sonner';
 
 function CreateTrip() {
   const [place, setPlace] = useState()
@@ -23,27 +22,16 @@ function CreateTrip() {
 
   const onGenerateTrip = ()=>{
     if(formData?.days>7){
-      toast.error("Enter Lesser Days than 7", {
-        position: "bottom-right",
-        autoClose: 5000,
-        style: {
-          fontSize: "14px",
-          fontFamily: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
-          padding: "5px 10px",
-        },
-      });
+      toast("Number of Days should be less than 7!")
       return;
-    } else if(formData?.days<1){
-      toast.error("Enter Valid Number of Days", {
-        position: "bottom-right",
-        autoClose: 5000,
-        style: {
-          fontSize: "14px",
-          fontFamily: "Inter, system-ui, Avenir, Helvetica, Arial, sans-serif",
-          padding: "5px 10px",
-        },
-      });
+    }
+    if(formData?.days<1){
+      toast("Enter Valid number of days!")
       return;
+    }
+    if(!formData?.location || !formData?.budget || !formData?.people || !formData?.days){
+      toast("Please fill all the details!")
+      return;   
     }
     console.log(formData)
   }
@@ -130,8 +118,6 @@ function CreateTrip() {
       <div className='my-10 justify-end flex'>
         <Button onClick={onGenerateTrip}>Generate Trip</Button>
       </div>
-
-      <ToastContainer />
     </div>
   )
 }
