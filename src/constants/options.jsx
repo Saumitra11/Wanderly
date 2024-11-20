@@ -50,4 +50,4 @@ export const SelectBudgetOptions = [
     }
 ];
 
-export const AI_PROMPT = 'Generate a personalized travel plan for: {Location} with {People} travelers, fitting a {Budget} budget';
+export const AI_PROMPT = 'Generate Travel Plan for Location : {location} for {days} Days for {people} with a {budget} budget';

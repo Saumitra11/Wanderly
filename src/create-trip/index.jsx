@@ -61,7 +61,7 @@ function CreateTrip() {
 
         {/* To Choose Number of Days */}
         <div>
-          <h2 className='text-xl my-3 font-medium '>How Long Will Your Next Adventure Be?</h2>
+          <h2 className='text-xl my-3 font-medium '>How Long Will Your Next Adventure Be? (7 Days Max)</h2>
           <Input 
             placeholder={"Eg. 5 (in days)"} 
             type="number"
