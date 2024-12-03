@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SelectTravelersList, SelectBudgetOptions, AI_PROMPT} from '@/constants/options'
+import { chatSession } from '@/service/AIModel';
 import React, { useEffect, useReducer, useState } from 'react'
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete'
 import { toast } from 'sonner';
@@ -20,7 +21,7 @@ function CreateTrip() {
     console.log(formData);
   }, [formData])
 
-  const onGenerateTrip = ()=>{
+  const onGenerateTrip = async()=>{
     if(formData?.days>7){
       toast("Number of Days should be less than 7!")
       return;
@@ -33,7 +34,17 @@ function CreateTrip() {
       toast("Please fill all the details!")
       return;   
     }
-    console.log(formData)
+    const FINAL_PROMPT = AI_PROMPT
+    .replace('{location}', formData?.location?.label)
+    .replace('{days}', formData?.days)
+    .replace('{people}', formData?.people)
+    .replace('{budget}', formData?.budget)
+    .replace('{days}', formData?.days)
+    console.log(FINAL_PROMPT)
+
+    const result = await chatSession.sendMessage(FINAL_PROMPT)
+
+    console.log(result?.response?.text())
   }
   return (
     <div className='sm:px-10 md:px-32 lg:px-50 xl:px-24 px-5 mt-10'>
