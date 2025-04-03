@@ -20,11 +20,15 @@ import {
 import { GrGoogle } from "react-icons/gr";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/service/firebaseConfig";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 function CreateTrip() {
   const [place, setPlace] = useState();
   const [formData, setFormData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -57,6 +61,7 @@ function CreateTrip() {
       toast.error("Please fill all details");
       return;
     }
+    setLoading(true);
     const FINAL_PROMPT = AI_PROMPT.replace(
       "{location}",
       formData?.location?.label
@@ -67,10 +72,23 @@ function CreateTrip() {
       .replace("{days}", formData?.days);
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
-    console.log(FINAL_PROMPT);
-    // console.log(import.meta.env.VITE_GOOGLE_GEMINI_AI_API_KEY)
     console.log(result?.response?.text());
+    saveAITrip(result?.response?.text());
+    setLoading(false);
     toast.success("Your trip will be generated successfully! 🎉");
+  };
+
+  const saveAITrip = async (tripData) => {
+    setLoading(true);
+    const user = JSON.parse(localStorage.getItem("user"));
+    const docId = Date.now().toString();
+    await setDoc(doc(db, "Trips", docId), {
+      id: docId,
+      userSelection: formData,
+      tripData: JSON.parse(tripData),
+      userEmail: user?.email,
+    });
+    setLoading(false);
   };
 
   const getUserProfile = (tokenInfo) => {
@@ -86,7 +104,7 @@ function CreateTrip() {
       )
       .then((resp) => {
         console.log(resp);
-        localStorage.setItem('user', JSON.stringify(resp.data));
+        localStorage.setItem("user", JSON.stringify(resp.data));
         setOpenDialog(false);
         onGenerateTrip();
       });
@@ -193,10 +211,15 @@ function CreateTrip() {
 
       <div className="my-10 flex justify-center">
         <Button
+          disabled={loading}
           className="px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:scale-105 transition-transform shadow-md cursor-pointer"
           onClick={onGenerateTrip}
         >
-          Generate Trip
+          {loading ? (
+            <AiOutlineLoading3Quarters className="h-7 w-7 animate-spin" />
+          ) : (
+            "Generate Trip"
+          )}
         </Button>
       </div>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
