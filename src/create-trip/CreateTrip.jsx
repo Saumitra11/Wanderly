@@ -23,12 +23,14 @@ import axios from "axios";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/service/firebaseConfig";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 function CreateTrip() {
   const [place, setPlace] = useState();
   const [formData, setFormData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -89,6 +91,7 @@ function CreateTrip() {
       userEmail: user?.email,
     });
     setLoading(false);
+    navigate('/view-trip/' + docId);
   };
 
   const getUserProfile = (tokenInfo) => {
@@ -212,7 +215,12 @@ function CreateTrip() {
       <div className="my-10 flex justify-center">
         <Button
           disabled={loading}
-          className="px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:scale-105 transition-transform shadow-md cursor-pointer"
+          className={`px-6 py-3 text-lg font-semibold rounded-lg text-white shadow-md transition-transform 
+    ${
+      loading
+        ? "bg-gray-400 cursor-not-allowed opacity-70"
+        : "bg-gradient-to-r from-blue-500 to-purple-600 hover:scale-105 active:scale-95"
+    }`}
           onClick={onGenerateTrip}
         >
           {loading ? (
