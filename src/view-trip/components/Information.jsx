@@ -1,13 +1,32 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import { getPlacesDetails, PHOTO_REF_URL } from "@/service/GlobalAPI";
+import React, { useEffect, useState } from "react";
 import { CiShare2 } from "react-icons/ci";
 
 function Information({ trip }) {
+
+  const [photoUrl, setPhotoUrl] = useState(null);
+
+  useEffect(() => {
+    trip&&getPlacePhoto();
+  }, [trip])
+
+  const getPlacePhoto = async() =>{
+    const data = {
+      textQuery: trip?.userSelection?.location?.label
+    }
+    const result = await getPlacesDetails(data).then(resp=>{
+      console.log(resp?.data.places[0].photos[3].name);
+      const photoUrl = PHOTO_REF_URL.replace("{NAME}", resp?.data.places[0].photos[2].name);
+      // console.log(photoUrl);
+      setPhotoUrl(photoUrl);
+    })
+  }
   return (
     <div className="space-y-5 my-10">
       <img
-        src="/placeholder1.jpg"
-        className="h-[340px] w-full object-cover rounded-2xl shadow-md"
+        src={photoUrl}
+        className="h-[440px] w-full object-cover rounded-2xl shadow-md"
         alt="Trip Location"
       />
 
