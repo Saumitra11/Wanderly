@@ -3,6 +3,7 @@ import { getPlacesDetails, PHOTO_REF_URL } from "@/service/GlobalAPI";
 import React, { useEffect, useState } from "react";
 import { FaMapLocationDot } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Places({ trip }) {
   const itineraryEntries = Object.entries(trip?.tripData?.itinerary || {});
@@ -19,6 +20,7 @@ function Places({ trip }) {
 
   const fetchPlacePhoto = async (placeName, key) => {
     try {
+      // First try fetching photo from Google Places API
       const data = { textQuery: placeName };
       const resp = await getPlacesDetails(data);
       const photoRef = resp?.data?.places?.[0]?.photos?.[0]?.name;
@@ -29,9 +31,52 @@ function Places({ trip }) {
           ...prev,
           [key]: url,
         }));
+      } else {
+        // If no valid photo from Google, try fetching from Unsplash
+        fetchUnsplashPhoto(placeName, key);
       }
     } catch (error) {
-      console.error("Error fetching place photo:", placeName, error);
+      console.error("Error fetching place photo from Google API:", placeName, error);
+      // Fallback to Unsplash if there's an error with Google Places API
+      fetchUnsplashPhoto(placeName, key);
+    }
+  };
+
+  const fetchUnsplashPhoto = async (placeName, key) => {
+    try {
+      const UNSPLASH_API_URL = "https://api.unsplash.com/photos/random";
+      const UNSPLASH_ACCESS_KEY = "<YOUR_UNSPLASH_ACCESS_KEY>"; // Use your Unsplash API key here
+
+      // Search Unsplash for the place name
+      const response = await axios.get(UNSPLASH_API_URL, {
+        params: {
+          query: placeName,
+          client_id: import.meta.env.VITE_UNSPLASH_ACCESS_KEY,
+          orientation: "landscape", // You can adjust the orientation to your preference
+        },
+      });
+
+      const imageUrl = response.data[0]?.urls?.regular;
+
+      if (imageUrl) {
+        setPlacePhotos((prev) => ({
+          ...prev,
+          [key]: imageUrl,
+        }));
+      } else {
+        // Fallback to a placeholder if Unsplash doesn't return a photo
+        setPlacePhotos((prev) => ({
+          ...prev,
+          [key]: "/placeholder1.jpg",
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching place photo from Unsplash:", placeName, error);
+      // Fallback to placeholder in case of any error
+      setPlacePhotos((prev) => ({
+        ...prev,
+        [key]: "/placeholder1.jpg",
+      }));
     }
   };
 

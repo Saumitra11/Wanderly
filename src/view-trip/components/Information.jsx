@@ -4,29 +4,37 @@ import React, { useEffect, useState } from "react";
 import { CiShare2 } from "react-icons/ci";
 
 function Information({ trip }) {
-
   const [photoUrl, setPhotoUrl] = useState(null);
 
   useEffect(() => {
-    trip&&getPlacePhoto();
-  }, [trip])
+    trip && getPlacePhoto();
+  }, [trip]);
 
-  const getPlacePhoto = async() =>{
-    const data = {
-      textQuery: trip?.userSelection?.location?.label
+  const getPlacePhoto = async () => {
+    try {
+      const location = trip?.userSelection?.location?.label;
+      if (!location) return;
+
+      const response = await fetch(
+        `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+          location
+        )}&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}&per_page=1`
+      );
+      const data = await response.json();
+      const imageUrl = data?.results?.[0]?.urls?.regular;
+
+      setPhotoUrl(imageUrl || "/fallbacks/default-location.jpg");
+    } catch (error) {
+      console.error("Unsplash fetch failed:", error);
+      setPhotoUrl("/fallbacks/default-location.jpg");
     }
-    const result = await getPlacesDetails(data).then(resp=>{
-      console.log(resp?.data.places[0].photos[3].name);
-      const photoUrl = PHOTO_REF_URL.replace("{NAME}", resp?.data.places[0].photos[2].name);
-      // console.log(photoUrl);
-      setPhotoUrl(photoUrl);
-    })
-  }
+  };
+
   return (
     <div className="space-y-5 my-10">
       <img
-        src={photoUrl}
-        className="h-[440px] w-full object-cover rounded-2xl shadow-md"
+        src={photoUrl || "/fallbacks/default-location.jpg"}
+        className="h-[500px] w-full object-cover rounded-2xl shadow-md"
         alt="Trip Location"
       />
 
@@ -51,9 +59,7 @@ function Information({ trip }) {
         </div>
 
         {/* Share Button */}
-        <Button
-          className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:scale-105 transition-transform shadow-md p-2 rounded-full"
-        >
+        <Button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:scale-105 transition-transform shadow-md p-2 rounded-full">
           <CiShare2 className="w-6 h-6" />
         </Button>
       </div>
