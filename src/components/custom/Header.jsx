@@ -7,11 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { GrGoogle } from "react-icons/gr";
 import axios from "axios";
 
@@ -65,6 +61,11 @@ function Header() {
       <div className="flex items-center gap-4">
         {user ? (
           <div className="flex items-center gap-3">
+            <a href="/create-trip">
+              <Button className="px-5 py-2 rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:brightness-110 hover:scale-105 transition-all duration-200 cursor-pointer">
+                + Create Trip
+              </Button>
+            </a>
             <a href="/my-trips">
               <Button className="px-5 py-2 rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:brightness-110 hover:scale-105 transition-all duration-200 cursor-pointer">
                 My Trips
