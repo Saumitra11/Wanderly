@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { getPlacesDetails, PHOTO_REF_URL } from "@/service/GlobalAPI";
 import React, { useEffect, useState } from "react";
 import { CiShare2 } from "react-icons/ci";
+import { toast } from "sonner";
 
 function Information({ trip }) {
   const [photoUrl, setPhotoUrl] = useState(null);
@@ -23,17 +24,17 @@ function Information({ trip }) {
       const data = await response.json();
       const imageUrl = data?.results?.[0]?.urls?.regular;
 
-      setPhotoUrl(imageUrl || "/fallbacks/default-location.jpg");
+      setPhotoUrl(imageUrl || "/placeholder1.jpg");
     } catch (error) {
       console.error("Unsplash fetch failed:", error);
-      setPhotoUrl("/fallbacks/default-location.jpg");
+      setPhotoUrl("/placeholder1.jpg");
     }
   };
 
   return (
     <div className="space-y-5 my-10">
       <img
-        src={photoUrl || "/fallbacks/default-location.jpg"}
+        src={photoUrl || "/placeholder1.jpg"}
         className="h-[500px] w-full object-cover rounded-2xl shadow-md"
         alt="Trip Location"
       />
@@ -59,7 +60,20 @@ function Information({ trip }) {
         </div>
 
         {/* Share Button */}
-        <Button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:scale-105 transition-transform shadow-md p-2 rounded-full">
+        <Button
+          onClick={() => {
+            navigator.clipboard
+              .writeText(window.location.href)
+              .then(() => {
+                toast.success("Link copied to clipboard!");
+              })
+              .catch((err) => {
+                console.error("Failed to copy: ", err);
+                toast.error("Failed to copy link.");
+              });
+          }}
+          className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:scale-105 transition-transform shadow-md p-2 rounded-full cursor-pointer"
+        >
           <CiShare2 className="w-6 h-6" />
         </Button>
       </div>

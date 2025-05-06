@@ -40,7 +40,7 @@ function Header() {
         console.log(resp);
         localStorage.setItem("user", JSON.stringify(resp.data));
         setOpenDialog(false);
-        window.location.reload(); // Or navigate("/") if you want to avoid reload
+        window.location.reload();
       });
   };
 

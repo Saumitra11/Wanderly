@@ -47,7 +47,7 @@ function Hotels({ trip }) {
               rel="noopener noreferrer"
             >
               <img
-                src={hotelPhotos[index] || "/placeholder1.jpg"}
+                src={hotelPhotos[index] ? hotelPhotos[index] : "/placeholder1.jpg"}
                 alt={hotel?.hotelName}
                 className="rounded-xl w-full h-40 object-cover mb-3 shadow-md"
               />

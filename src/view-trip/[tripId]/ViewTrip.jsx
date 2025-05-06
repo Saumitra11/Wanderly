@@ -13,6 +13,7 @@ function ViewTrip() {
   const [trip, setTrip] = useState([]);
   useEffect(() => {
     tripId && getTripData();
+    document.title = trip?.userSelection?.location?.label || "Wanderly";
   }, [tripId]);
   const getTripData = async () => {
     const docRef = doc(db, "Trips", tripId);

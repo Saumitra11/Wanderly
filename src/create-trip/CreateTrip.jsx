@@ -38,6 +38,9 @@ function CreateTrip() {
       [name]: value,
     });
   };
+  useEffect(() => {
+    document.title = "Create Trip";
+  }, [])
 
   const login = useGoogleLogin({
     onSuccess: (response) => getUserProfile(response),

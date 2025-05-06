@@ -10,6 +10,7 @@ function MyTrips() {
 
   useEffect(() => {
     getUserTrips();
+    document.title = "My Trips";
   }, []);
 
   const getUserTrips = async () => {

@@ -21,10 +21,10 @@ function UserTripCard({ trip }) {
       const data = await response.json();
       const imageUrl = data?.results?.[0]?.urls?.regular;
 
-      setPhotoUrl(imageUrl || "/fallbacks/default-location.jpg");
+      setPhotoUrl(imageUrl || "/placeholder1.jpg");
     } catch (error) {
       console.error("Unsplash fetch failed:", error);
-      setPhotoUrl("/fallbacks/default-location.jpg");
+      setPhotoUrl("/placeholder1.jpg");
     }
   };
 
