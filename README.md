@@ -50,6 +50,24 @@ Wanderly is a responsive and user-friendly website developed using React.js and 
 - **Build Tool**: Vite
 - **Auth & Integrations** (optional): Firebase, React OAuth
 
+## Screenshots
+Landing Page
+![image](https://github.com/user-attachments/assets/de4574cc-0a1f-4416-8bc5-646f4c30a8f2)
+
+Trip Creation Page
+![image](https://github.com/user-attachments/assets/f0cc9309-a140-4d8e-bcbd-04710262380e)
+
+My Trips Page
+![image](https://github.com/user-attachments/assets/30321cc1-0f0c-429e-bb04-0e2ad339a309)
+
+Itinerary Page
+![image](https://github.com/user-attachments/assets/828e10f7-2a71-4895-ac36-acc942a9e062)
+![image](https://github.com/user-attachments/assets/89032bac-4b10-4ed7-85ad-b3550c396a7f)
+
+
+
+
+
 ## Contributing
 
 Contributions are welcome! If you have ideas for improvements or want to add new features, feel free to fork the repository and submit a pull request.
