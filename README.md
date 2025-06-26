@@ -65,7 +65,8 @@ Itinerary Page
 ![image](https://github.com/user-attachments/assets/89032bac-4b10-4ed7-85ad-b3550c396a7f)
 
 
-
+Demo Video:
+https://www.loom.com/share/887e6179b63e4115bffb4efb133a203d?sid=82d73ed2-65c6-454e-9241-7dc9f00df3ce
 
 
 ## Contributing
